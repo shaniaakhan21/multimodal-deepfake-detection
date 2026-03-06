@@ -142,14 +142,27 @@ Example:
 curl -X POST "http://localhost:8000/predict" -F "file=@sample.mp4"
 ```
 
-## Benchmark Snapshot
-Replace these placeholder values with your final notebook metrics before sharing publicly.
+## Chapter 5: Experiments and Results
 
-| Modality | Accuracy | Precision | Recall | F1-score | AUC |
-| --- | --- | --- | --- | --- | --- |
-| Image | TBD | TBD | TBD | TBD | TBD |
-| Video | TBD | TBD | TBD | TBD | TBD |
-| Audio | TBD | TBD | TBD | TBD | TBD |
+### Experimental Setup
+- Environment: Jupyter notebooks with CUDA-enabled GPU support
+- Framework: PyTorch
+- Split ratio: 80:20 (train:validation)
+- Training strategy: each modality trained independently with its own preprocessing and model pipeline
+
+### Modality-Wise Results
+- Image (per-frame): Accuracy `99%`, F1 (Fake) `0.99`, ROC-AUC `0.9991`
+- Image (per-video aggregation): Accuracy `100%`, F1 (Fake) `1.00`
+- Video: Accuracy `100%`, F1 `1.00` (6 misclassifications out of 3886 videos)
+- Audio: Accuracy `83%`, F1 (Fake) `0.82`, ROC-AUC `0.905`, AP `0.915`
+
+### Cross-Modal Comparison
+| Modality | Accuracy | F1-Score (Fake) | ROC-AUC | Notes |
+| --- | --- | --- | --- | --- |
+| Image (Per-Frame) | 99% | 0.99 | 0.9991 | Strong frame-level discrimination |
+| Image (Per-Video) | 100% | 1.00 | 1.0000 | Perfect aggregated video-level performance |
+| Video | 100% | 1.00 | 1.0000 | Robust temporal feature modeling |
+| Audio | 83% | 0.82 | 0.9050 | Useful signal, lower than visual modalities |
 
 ## Results Gallery
 
