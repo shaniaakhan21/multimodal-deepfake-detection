@@ -5,6 +5,7 @@
   <img src="https://img.shields.io/badge/Python-3.12-22c55e?style=for-the-badge" alt="Python" />
   <img src="https://img.shields.io/badge/FastAPI-Serving-f59e0b?style=for-the-badge" alt="FastAPI" />
   <img src="https://img.shields.io/badge/Deepfake-Detection-ef4444?style=for-the-badge" alt="Deepfake" />
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-16a34a?style=for-the-badge" alt="MIT License" /></a>
 </p>
 
 A practical multimodal deepfake detection system combining **image**, **video**, and **audio** analysis using CNN pipelines and a deployable **FastAPI** service.
@@ -171,5 +172,8 @@ Replace these placeholder values with your final notebook metrics before sharing
 - Too few detected faces in video: tune `fps_interval`, `max_frames`, `min_face_frames`
 - Large file push issues: keep artifacts out of Git or use Git LFS
 
+## License
+This project is licensed under the [MIT License](./LICENSE).
+
 ## Author
-**Shania Khan**
+**Shaniya Khan**
