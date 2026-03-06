@@ -9,7 +9,7 @@ def process_and_save(input_dir, output_dir):
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
     for label in ['real', 'fake']:
-        src_folder = os.path.join(input_dir, label)
+        src_folder = os.pjoin(input_dir, label)
         dst_folder = os.path.join(output_dir, label)
         Path(dst_folder).mkdir(parents=True, exist_ok=True)
 
@@ -35,7 +35,8 @@ def process_and_save(input_dir, output_dir):
 
 def main():
     parser = argparse.ArgumentParser(description="Preprocess split frame images")
-    parser.add_argument('--mode', choices=['train', 'val', 'all'], default='all', help='Which data split to preprocess')
+    parser.add_argument('--mode', choices=['train', 'val', 'all'], default='all', 
+                        help='Which data split to preprocess')
     args = parser.parse_args()
 
     if args.mode in ['train', 'all']:
@@ -57,3 +58,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+

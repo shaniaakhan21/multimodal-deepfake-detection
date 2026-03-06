@@ -1,0 +1,55 @@
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Python caches / build
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Local env / runtime
+.env
+.env.*
+.venv/
+venv/
+
+# Project-local Python environments
+3.12.6/
+pyenv/
+now/
+this/
+via/
+shims/
+
+# Logs and temp files
+*.log
+*.tmp
+*.temp
+
+# ML artifacts and checkpoints
+*.pth
+*.pt
+*.onnx
+*.ckpt
+*.h5
+*.pkl
+*.joblib
+
+# Generated analysis outputs
+analysis_errors/
+
+# Generated media/plots
+*.png
+
+# Large training data / derived frame data
+data/split_frames/
+data/

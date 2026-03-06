@@ -13,7 +13,6 @@ split_ratios = {
     'val': 0.15,
     'test': 0.15
 }
-
 # Create split directories
 for split in split_ratios.keys():
     for label in input_dirs.keys():

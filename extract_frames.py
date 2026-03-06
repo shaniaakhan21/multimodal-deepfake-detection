@@ -35,3 +35,6 @@ output_fake = "data/extracted_frames/fake"
 # Extract frames
 extract_frames_from_videos(real_video_dir, output_real, label='real')
 extract_frames_from_videos(fake_video_dir, output_fake, label='fake')
+
+
+
