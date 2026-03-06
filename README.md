@@ -134,14 +134,20 @@ Example:
 curl -X POST "http://localhost:8000/predict" -F "file=@sample.mp4"
 ```
 
-## Visual Outputs
-- `training_curves.png`
-- `loss_curve_image_video.png`
-- `acc_curve_image_video.png`
-- `prediction_distribution.png`
-- `cnn_firstconv_filters.png`
-- `vid_activations_grid.png`
-- `vid_activations_time.png`
+## Results Gallery
+
+### Training Dynamics
+![Training Curves](training_curves.png)
+![Loss Curve](loss_curve_image_video.png)
+![Accuracy Curve](acc_curve_image_video.png)
+
+### Prediction Behavior
+![Prediction Distribution](prediction_distribution.png)
+
+### Explainability Views
+![First Layer Filters](cnn_firstconv_filters.png)
+![Video Activations Grid](vid_activations_grid.png)
+![Video Activations Over Time](vid_activations_time.png)
 
 ## Troubleshooting
 - Missing model files: verify checkpoint filenames in `forfastapi.py`
@@ -150,4 +156,4 @@ curl -X POST "http://localhost:8000/predict" -F "file=@sample.mp4"
 - Large file push issues: keep artifacts out of Git or use Git LFS
 
 ## Author
-**Shania Khan**
+**Shaniya Khan**
