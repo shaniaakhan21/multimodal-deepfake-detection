@@ -53,3 +53,7 @@ analysis_errors/
 # Large training data / derived frame data
 data/split_frames/
 data/
+
+# local env junk
+#/
+uses/
