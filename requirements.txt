@@ -1,0 +1,16 @@
+fastapi
+uvicorn[standard]
+python-multipart
+
+torch
+torchvision
+
+numpy
+pandas
+tqdm
+opencv-python
+librosa
+pillow
+
+jupyter
+matplotlib

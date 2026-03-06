@@ -9,6 +9,13 @@
 
 A practical multimodal deepfake detection system combining **image**, **video**, and **audio** analysis using CNN pipelines and a deployable **FastAPI** service.
 
+## Quick Start
+```bash
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn forfastapi:app --host 0.0.0.0 --port 8000 --reload
+```
+
 ## Project Snapshot
 - Multimodal inference: frame, video, and audio
 - Full data-preparation pipeline from videos to model-ready tensors
@@ -76,7 +83,7 @@ source .venv/bin/activate
 ### 2. Install dependencies
 ```bash
 pip install --upgrade pip
-pip install torch torchvision fastapi uvicorn pillow numpy opencv-python librosa pandas tqdm python-multipart
+pip install -r requirements.txt
 ```
 
 ### 3. Install FFmpeg
@@ -134,6 +141,15 @@ Example:
 curl -X POST "http://localhost:8000/predict" -F "file=@sample.mp4"
 ```
 
+## Benchmark Snapshot
+Replace these placeholder values with your final notebook metrics before sharing publicly.
+
+| Modality | Accuracy | Precision | Recall | F1-score | AUC |
+| --- | --- | --- | --- | --- | --- |
+| Image | TBD | TBD | TBD | TBD | TBD |
+| Video | TBD | TBD | TBD | TBD | TBD |
+| Audio | TBD | TBD | TBD | TBD | TBD |
+
 ## Results Gallery
 
 ### Training Dynamics
@@ -156,4 +172,4 @@ curl -X POST "http://localhost:8000/predict" -F "file=@sample.mp4"
 - Large file push issues: keep artifacts out of Git or use Git LFS
 
 ## Author
-**Shaniya Khan**
+**Shania Khan**
