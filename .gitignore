@@ -65,6 +65,13 @@ analysis_errors/
 
 # Generated visual outputs
 *.png
+!training_curves.png
+!loss_curve_image_video.png
+!acc_curve_image_video.png
+!prediction_distribution.png
+!cnn_firstconv_filters.png
+!vid_activations_grid.png
+!vid_activations_time.png
 
 # Large generated CSVs in this project
 train.csv
