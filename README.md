@@ -1,103 +1,97 @@
 # Multimodal Deepfake Detection
 
-A practical multimodal deepfake detection project that combines **image**, **video**, and **audio** analysis using CNN-based pipelines and a deployable **FastAPI** backend.
+<p align="center">
+  <img src="https://img.shields.io/badge/AI-Multimodal-0ea5e9?style=for-the-badge" alt="Multimodal" />
+  <img src="https://img.shields.io/badge/Python-3.12-22c55e?style=for-the-badge" alt="Python" />
+  <img src="https://img.shields.io/badge/FastAPI-Serving-f59e0b?style=for-the-badge" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/Deepfake-Detection-ef4444?style=for-the-badge" alt="Deepfake" />
+</p>
 
-## Why This Project
-Deepfake detection is strongest when signals from multiple modalities are analyzed together. This repository provides:
+A practical multimodal deepfake detection system combining **image**, **video**, and **audio** analysis using CNN pipelines and a deployable **FastAPI** service.
 
-- A reproducible data-preparation pipeline (video -> frames -> face crops -> processed data)
-- CNN-based classifiers for visual and audio cues
-- Evaluation and explainability notebooks
-- API endpoints for production-style inference on uploaded media
+## Project Snapshot
+- Multimodal inference: frame, video, and audio
+- Full data-preparation pipeline from videos to model-ready tensors
+- Notebook-driven training and explainability workflow
+- Production-style API endpoints for direct media uploads
 
-## Core Features
-- Image deepfake prediction from single frames
-- Video deepfake prediction via frame sampling + face detection + temporal aggregation
-- Audio deepfake prediction from mel-spectrograms
-- Unified endpoint for auto-routing by file type
-- FaceForensics++ downloader script for dataset setup
+## Architecture Diagram
+```mermaid
+flowchart LR
+    A[FaceForensics++ Videos] --> B[Frame Extraction]
+    B --> C[Train/Val/Test Split]
+    C --> D[Face Detection + Crop]
+    D --> E[Resize / Preprocess]
+    E --> F[Image & Video CNN Inference]
 
-## Repository Highlights
-- `forfastapi.py`: FastAPI app with image/video/audio inference endpoints
-- `extract_frames.py`: Extracts frames from real/fake video folders
-- `split_frames.py`: Splits frames into train/val/test
-- `face_detect_crop.py`: Detects and crops faces using OpenCV Haar cascades
-- `data_preprocess.py`: Resizes cropped faces to model input size
-- `labeling.py`: Builds label CSV from prepared image folders
-- `faceforensics_download_v4.py`: FaceForensics++ download utility
-- `revealed.ipynb`: Main experimentation/training notebook
-- `model_evaluation_and_explainability.ipynb`: Model analysis and explainability workflow
-- `video_baseline.ipynb`: Baseline video experiments
+    G[Raw Audio] --> H[FFmpeg 16k Mono WAV]
+    H --> I[Mel Spectrogram]
+    I --> J[Audio CNN Inference]
+
+    F --> K[Decision Layer]
+    J --> K
+    K --> L[REAL / FAKE Output]
+```
 
 ## End-to-End Pipeline
-1. Download FaceForensics++ data
-2. Extract frames from real/fake videos
-3. Split frames into train/val/test
-4. Detect and crop faces
-5. Resize/process images for model input
-6. Train and evaluate models (notebooks)
-7. Serve inference via FastAPI
+```mermaid
+flowchart TD
+    P1[1. Download Dataset] --> P2[2. Extract Frames]
+    P2 --> P3[3. Split Data]
+    P3 --> P4[4. Crop Faces]
+    P4 --> P5[5. Resize/Process]
+    P5 --> P6[6. Train + Evaluate]
+    P6 --> P7[7. Serve with FastAPI]
+```
+
+## Repository Highlights
+- `forfastapi.py`: API service for `/predict_frame`, `/predict_video`, `/predict_audio`, `/predict`
+- `extract_frames.py`: extracts real/fake frames from source video folders
+- `split_frames.py`: split into train/val/test
+- `face_detect_crop.py`: Haar cascade face detection + crop
+- `data_preprocess.py`: standard resize preprocessing
+- `labeling.py`: CSV label creation from folder structure
+- `faceforensics_download_v4.py`: FaceForensics++ download utility
+- `revealed.ipynb`, `model_evaluation_and_explainability.ipynb`, `video_baseline.ipynb`: experimentation and analysis
 
 ## Data Layout (Expected)
-
 ```text
 data/
   faceforensics/
     original_sequences/youtube/c23/videos
     manipulated_sequences/DeepFakeDetection/c23/videos
-  extracted_frames/
-    real/
-    fake/
-  split_frames/
-    train/{real,fake}
-    val/{real,fake}
-    test/{real,fake}
-  cropped/
-    train/{real,fake}
-    val/{real,fake}
-  processed/
-    train/{real,fake}
-    val/{real,fake}
+  extracted_frames/{real,fake}
+  split_frames/{train,val,test}/{real,fake}
+  cropped/{train,val}/{real,fake}
+  processed/{train,val}/{real,fake}
 ```
 
 ## Setup
 ### 1. Create environment
-
 ```bash
 python -m venv .venv
-source .venv/bin/activate    # macOS/Linux
+source .venv/bin/activate
 ```
 
 ### 2. Install dependencies
-
 ```bash
 pip install --upgrade pip
 pip install torch torchvision fastapi uvicorn pillow numpy opencv-python librosa pandas tqdm python-multipart
 ```
 
-### 3. Install FFmpeg (required for audio/video API paths)
-
+### 3. Install FFmpeg
 ```bash
-# macOS (Homebrew)
 brew install ffmpeg
 ```
 
 ## Dataset Download (FaceForensics++)
-
 ```bash
 python faceforensics_download_v4.py data/faceforensics -d original -c c23 -t videos
 python faceforensics_download_v4.py data/faceforensics -d DeepFakeDetection -c c23 -t videos
 ```
 
-You can check all options with:
-
-```bash
-python faceforensics_download_v4.py -h
-```
-
-## Data Preparation Commands
-Run these scripts in order:
-
+## Data Preparation
+Run in order:
 ```bash
 python extract_frames.py
 python split_frames.py
@@ -106,56 +100,41 @@ python data_preprocess.py --mode all
 python labeling.py
 ```
 
-## Model Artifacts
-Current repository includes artifacts such as:
-
+## Model Artifact Notes
+Included in project (examples):
 - `revealed_deepfake_detector.pth`
 - `audio_model.pth`
 - `image_simplecnn.onnx`
 - `image_simplecnn_ts.pt`
 
-`forfastapi.py` currently loads:
+`forfastapi.py` currently expects:
+- `best_model.pth`
+- `best_audio_model.pth`
 
-- `best_model.pth` (image)
-- `best_audio_model.pth` (audio)
+If names differ, rename files or update paths inside `forfastapi.py`.
 
-If your checkpoint names differ, either rename files or update the model paths in `forfastapi.py`.
-
-## Running the API
-
+## Run API
 ```bash
 uvicorn forfastapi:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 Health check:
-
 ```bash
 curl http://localhost:8000/healthz
 ```
 
 ## API Endpoints
-- `POST /predict_frame` -> image-only prediction
-- `POST /predict_video` -> video prediction using sampled face frames
-- `POST /predict_audio` -> audio prediction via mel-spectrogram
-- `POST /predict` -> unified endpoint (image/video/audio by extension)
+- `POST /predict_frame`
+- `POST /predict_video`
+- `POST /predict_audio`
+- `POST /predict` (auto-routing by media extension)
 
-### Example: Unified Prediction
-
+Example:
 ```bash
-curl -X POST "http://localhost:8000/predict" \
-  -F "file=@sample.mp4"
-```
-
-### Example: Audio Prediction
-
-```bash
-curl -X POST "http://localhost:8000/predict_audio" \
-  -F "file=@sample.wav"
+curl -X POST "http://localhost:8000/predict" -F "file=@sample.mp4"
 ```
 
 ## Visual Outputs
-Training/evaluation artifacts in this project include:
-
 - `training_curves.png`
 - `loss_curve_image_video.png`
 - `acc_curve_image_video.png`
@@ -164,24 +143,11 @@ Training/evaluation artifacts in this project include:
 - `vid_activations_grid.png`
 - `vid_activations_time.png`
 
-## Notebooks
-- `revealed.ipynb`: Main training and experimentation flow
-- `model_evaluation_and_explainability.ipynb`: Error analysis, interpretability, result inspection
-- `video_baseline.ipynb`: Baseline comparisons for video
-
 ## Troubleshooting
-- If API startup fails with missing model files: verify checkpoint filenames/paths in `forfastapi.py`.
-- If audio endpoints fail: ensure `ffmpeg` and `ffprobe` are installed and available in PATH.
-- If face detection returns too few faces on videos: tune `fps_interval`, `max_frames`, and `min_face_frames` in `/predict_video`.
-- If large files fail to push: keep datasets/checkpoints outside Git or use Git LFS.
-
-## Suggested Next Improvements
-- Add `requirements.txt` for exact reproducibility
-- Add model training scripts (currently notebook-centric)
-- Add unit tests for preprocessing and API contracts
-- Add Dockerfile for one-command deployment
+- Missing model files: verify checkpoint filenames in `forfastapi.py`
+- Audio endpoint errors: ensure `ffmpeg` and `ffprobe` are in PATH
+- Too few detected faces in video: tune `fps_interval`, `max_frames`, `min_face_frames`
+- Large file push issues: keep artifacts out of Git or use Git LFS
 
 ## Author
 **Shania Khan**
-
-If you use this repository in research or demos, consider citing the project and linking back to the GitHub repo.

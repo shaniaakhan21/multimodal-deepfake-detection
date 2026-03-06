@@ -19,6 +19,7 @@ dist/
 # Local env / runtime
 .env
 .env.*
+.python-version
 .venv/
 venv/
 
